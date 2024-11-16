@@ -1,0 +1,14 @@
+coverage.json
+.env
+cache
+build
+yarn.lock
+node_modules
+coverage.json
+coverage
+.coverage_*
+.openzeppelin
+artifacts/
+.vscode/launch.json
+
+.DS_Store
