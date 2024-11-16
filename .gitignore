@@ -10,5 +10,5 @@ coverage
 .openzeppelin
 artifacts/
 .vscode/launch.json
-
+typechain-types
 .DS_Store
