@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
-contract BlobMarketplace {
+contract BlobMarketPlace {
     struct BlobRequest {
         bytes32 blockHash;
         uint256 blobIndex;
@@ -37,10 +37,7 @@ contract BlobMarketplace {
     }
 
     modifier isValidBlockhash(uint256 _blockNumber) {
-        require(
-            blockhash(_blockNumber) != bytes32(0),
-            "Invalid block hash"
-        );
+        require(blockhash(_blockNumber) != bytes32(0), "Invalid block hash");
         _;
     }
 
@@ -49,10 +46,8 @@ contract BlobMarketplace {
         uint256 _blobIndex
     ) external payable isValidBlockhash(_blockNumber) {
         require(msg.value > 0, "Bounty must be greater than 0");
-        bytes32 bh = blockhash(_blockNumber) ;
-        bytes32 proposalKey = keccak256(
-            abi.encodePacked(bh, _blobIndex)
-        );
+        bytes32 bh = blockhash(_blockNumber);
+        bytes32 proposalKey = keccak256(abi.encodePacked(bh, _blobIndex));
         require(
             blobRequests[proposalKey].bounty == 0,
             "Proposal already exists"
