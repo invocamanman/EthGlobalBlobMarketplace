@@ -72,3 +72,229 @@ A marketplace for blobs is not just a convenience; it’s a necessity in the age
 ---
 
 _Thank you for supporting the future of blobs!_
+
+# Blob Marketplace Project: Tech docs
+
+## Table of Contents
+
+1. [Project Overview](#project-overview)
+2. [Architecture](#architecture)
+3. [Smart Contract Design](#smart-contract-design)
+4. [Frontend Overview](#frontend-overview)
+5. [Rust Module for SP1 Proof Verification](#rust-module-for-sp1-proof-verification)
+6. [Deployment and Testing](#deployment-and-testing)
+7. [Future Improvements](#future-improvements)
+8. [Getting Started](#getting-started)
+9. [Contribution Guidelines](#contribution-guidelines)
+
+---
+
+## Project Overview
+
+The **Blob Marketplace** is a decentralized platform where users can propose block hashes and blob indices, attaching bounties for provers to submit valid proofs (SP1) of the blob content. The marketplace ensures trustless interactions, rewarding provers who successfully verify blob content.
+
+### Key Features:
+- **Propose Blobs**: Users can propose specific block hashes and blob indices.
+- **Submit Proofs**: Provers submit blob content and SP1 proofs to claim bounties.
+- **Decentralized Interaction**: All actions are managed via smart contracts.
+- **Rust SP1 Verification**: Efficient off-chain proof verification using Rust.
+
+---
+
+## Architecture
+
+The Blob Marketplace consists of three main components:
+
+1. **Smart Contract**: Manages blob proposals, bounties, and proof submissions.
+2. **Frontend**: A user interface for proposing blobs and submitting proofs.
+3. **Rust Backend**: Handles SP1 proof verification efficiently off-chain.
+
+### Interaction Flow:
+1. **Proposing a Blob**:
+   - User proposes a block hash and blob index, attaching a bounty.
+2. **Submitting Proofs**:
+   - Prover submits the blob content and proof.
+   - Rust backend verifies the proof.
+3. **Claiming Bounty**:
+   - If the proof is valid, the prover claims the bounty.
+
+---
+
+## Smart Contract Design
+
+### Contract Structure
+
+The contract is written in Solidity and includes the following key features:
+
+1. **BlobRequest Struct**:
+   ```solidity
+   struct BlobRequest {
+       bytes32 blockHash;
+       uint256 blobIndex;
+       uint256 bounty;
+       bool fulfilled;
+   }
+   ```
+   Stores details about a blob request:
+   - `blockHash`: Hash of the block containing the blob.
+   - `blobIndex`: Index of the blob in the block.
+   - `bounty`: Bounty amount attached to the request.
+   - `fulfilled`: Whether the request has been fulfilled.
+
+2. **Propose Blob**:
+   ```solidity
+   function proposeBlob(bytes32 _blockHash, uint256 _blobIndex) external payable;
+   ```
+   Users can propose a blob and attach a bounty.
+
+3. **Submit Proof**:
+   ```solidity
+   function submitBlobProof(bytes32 _blockHash, uint256 _blobIndex, bytes calldata _proof) external;
+   ```
+   Provers submit blob content and SP1 proof to claim the bounty.
+
+4. **Remove Proposal**:
+   ```solidity
+   function removeProposal(bytes32 _blockHash, uint256 _blobIndex) external;
+   ```
+   Proposers can remove their proposals and reclaim the bounty if the proposal is unfulfilled.
+
+5. **Events**:
+   - `BlobRequested`: Emitted when a blob proposal is created.
+   - `BlobFulfilled`: Emitted when a valid proof is submitted.
+   - `ProposalRemoved`: Emitted when a proposal is removed.
+   - `BountyClaimed`: Emitted when a bounty is claimed.
+
+---
+
+## Frontend Overview
+
+### Tech Stack
+- **React**: For building the user interface.
+- **Web3.js**: For interacting with the Ethereum blockchain.
+- **Tailwind CSS**: For styling.
+
+### Features:
+1. **Propose Blob Interface**:
+   - Allows users to propose block hashes and blob indices.
+   - Attach a bounty using MetaMask.
+
+2. **Submit Proof Interface**:
+   - Provers can submit blob content and proof.
+   - Provides proof generation and verification guidance.
+
+3. **View Proposals**:
+   - Displays a list of active proposals.
+   - Tracks fulfilled and unfulfilled requests.
+
+---
+
+## Rust Module for SP1 Proof Verification
+
+### Overview
+
+The Rust module verifies SP1 proofs off-chain, ensuring that blob content matches the specified block hash and blob index.
+
+### Key Features:
+- **SP1 Proof Parsing**: Efficiently parses and validates proof data.
+- **Secure Verification**: Rust ensures fast and reliable verification.
+- **Integration**: Outputs verification results for the smart contract.
+
+### Example Usage:
+```rust
+fn verify_proof(block_hash: &str, blob_index: u32, proof: &[u8], content: &[u8]) -> bool {
+    // SP1 proof verification logic
+}
+```
+
+---
+
+## Deployment and Testing
+
+### Deployment
+
+1. **Smart Contract**:
+   - Compile and deploy using **Hardhat** or **Foundry**.
+   - Example:
+     ```bash
+     npx hardhat run scripts/deploy.js --network mainnet
+     ```
+
+2. **Frontend**:
+   - Deploy using **Vercel** or **Netlify**.
+
+3. **Rust Module**:
+   - Run as a microservice or deploy as a WASM module for frontend integration.
+
+### Testing
+
+- **Unit Tests**:
+  - Use Hardhat for contract testing.
+  - Example:
+    ```bash
+    npx hardhat test
+    ```
+
+- **Integration Tests**:
+  - Validate interactions between the frontend, contract, and Rust backend.
+
+---
+
+## Future Improvements
+
+1. **On-chain Proof Verification**:
+   - Implement zk-SNARKs for on-chain proof verification.
+2. **Enhanced Security**:
+   - Add protections against spam proposals.
+3. **Dynamic Bounty Adjustments**:
+   - Allow proposers to increase bounties based on demand.
+4. **Multi-chain Support**:
+   - Extend support to chains like Polygon, Arbitrum, etc.
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js
+- Hardhat
+- Rust (for backend)
+- MetaMask (for blockchain interaction)
+
+### Installation
+
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/your-repo/blob-marketplace.git
+   cd blob-marketplace
+   ```
+
+2. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Compile Contracts**:
+   ```bash
+   npx hardhat compile
+   ```
+
+4. **Run Frontend**:
+   ```bash
+   npm start
+   ```
+
+5. **Run Rust Backend**:
+   ```bash
+   cargo run
+   ```
+
+---
+
+## Contribution Guidelines
+
+1. **Fork the repository**.
+2. **Create a feature branch**.
+3. **Make your changes**.
+4. **Submit a pull request**.
