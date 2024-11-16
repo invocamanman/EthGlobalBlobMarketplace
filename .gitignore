@@ -12,3 +12,4 @@ artifacts/
 .vscode/launch.json
 typechain-types
 .DS_Store
+blob-marketplace-frontend/.env

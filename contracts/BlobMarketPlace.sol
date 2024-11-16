@@ -36,22 +36,22 @@ contract BlobMarketplace {
         _;
     }
 
-    modifier isValidBlockhash(bytes32 _blockHash) {
+    modifier isValidBlockhash(uint256 _blockNumber) {
         require(
-            blockhash(uint256(_blockHash)) != bytes32(0),
+            blockhash(_blockNumber) != bytes32(0),
             "Invalid block hash"
         );
         _;
     }
 
     function proposeBlob(
-        bytes32 _blockHash,
+        uint256 _blockNumber,
         uint256 _blobIndex
-    ) external payable isValidBlockhash(_blockHash) {
+    ) external payable isValidBlockhash(_blockNumber) {
         require(msg.value > 0, "Bounty must be greater than 0");
-
+        bytes32 bh = blockhash(_blockNumber) ;
         bytes32 proposalKey = keccak256(
-            abi.encodePacked(_blockHash, _blobIndex)
+            abi.encodePacked(bh, _blobIndex)
         );
         require(
             blobRequests[proposalKey].bounty == 0,
@@ -59,14 +59,14 @@ contract BlobMarketplace {
         );
 
         blobRequests[proposalKey] = BlobRequest({
-            blockHash: _blockHash,
+            blockHash: bh,
             blobIndex: _blobIndex,
             bounty: msg.value,
             proposer: msg.sender,
             fulfilled: false
         });
 
-        emit BlobRequested(_blockHash, _blobIndex, msg.value);
+        emit BlobRequested(bh, _blobIndex, msg.value);
     }
 
     function submitBlobProof(
@@ -79,10 +79,6 @@ contract BlobMarketplace {
         );
         BlobRequest storage request = blobRequests[proposalKey];
 
-        require(
-            request.bounty > 0,
-            "Proposal does not exist or already fulfilled"
-        );
         require(!request.fulfilled, "Blob already fulfilled");
 
         // Add proof verification logic (SP1 proof verification)

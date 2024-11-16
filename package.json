@@ -14,7 +14,6 @@
         "@openzeppelin/contracts5": "npm:@openzeppelin/contracts@5.0.0",
         "@openzeppelin/hardhat-upgrades": "^2.5.1",
         "@types/yargs": "^17.0.28",
-        "dotenv": "^8.6.0",
         "eslint": "^8.51.0",
         "eslint-config-airbnb-base": "^15.0.0",
         "eslint-plugin-mocha": "^9.0.0",

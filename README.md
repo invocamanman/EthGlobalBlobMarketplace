@@ -172,7 +172,6 @@ The contract is written in Solidity and includes the following key features:
 ### Tech Stack
 - **React**: For building the user interface.
 - **Web3.js**: For interacting with the Ethereum blockchain.
-- **Tailwind CSS**: For styling.
 
 ### Features:
 1. **Propose Blob Interface**:
@@ -226,18 +225,6 @@ fn verify_proof(block_hash: &str, blob_index: u32, proof: &[u8], content: &[u8])
 3. **Rust Module**:
    - Run as a microservice or deploy as a WASM module for frontend integration.
 
-### Testing
-
-- **Unit Tests**:
-  - Use Hardhat for contract testing.
-  - Example:
-    ```bash
-    npx hardhat test
-    ```
-
-- **Integration Tests**:
-  - Validate interactions between the frontend, contract, and Rust backend.
-
 ---
 
 ## Future Improvements
@@ -248,8 +235,6 @@ fn verify_proof(block_hash: &str, blob_index: u32, proof: &[u8], content: &[u8])
    - Add protections against spam proposals.
 3. **Dynamic Bounty Adjustments**:
    - Allow proposers to increase bounties based on demand.
-4. **Multi-chain Support**:
-   - Extend support to chains like Polygon, Arbitrum, etc.
 
 ---
 
