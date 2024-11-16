@@ -1,6 +1,7 @@
 [profile.default]
 optimizer = true
 optimizer_runs = 20_000
+libs = ["node_modules", "lib"]
 
 [rpc_endpoints]
 sepolia = "${SEPOLIA_RPC_URL}"

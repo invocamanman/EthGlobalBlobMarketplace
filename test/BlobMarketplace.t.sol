@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
-import "lib/forge-std/Test.sol";
+import "forge-std/Test.sol";
 import "../contracts/BlobMarketPlace.sol";
 
-contract BlobMarketplaceTest is Test {
-    BlobMarketplace marketplace;
+contract BlobMarketPlaceTest is Test {
+    BlobMarketPlace marketplace;
 
     address proposer = address(0x123);
     address prover = address(0x456);
@@ -16,7 +16,7 @@ contract BlobMarketplaceTest is Test {
     uint256 bounty = 1 ether;
 
     function setUp() public {
-        marketplace = new BlobMarketplace();
+        marketplace = new BlobMarketPlace();
         vm.deal(proposer, 10 ether); // Fund proposer for testing
         vm.deal(prover, 10 ether); // Fund prover for testing
     }
